@@ -1,17 +1,28 @@
-from utils.instance_generator import generate_stoichastic_instance
-from models.stoichastic_facility_location import solve_stoichastic
+# from utils.instance_generator import generate_stoichastic_instance
+# from models.stoichastic_facility_location import solve_stoichastic
+
+# def main():
+#     I, J, S, F, C, R, d, pi = generate_stoichastic_instance(num_scenarios=5)
+#     sol = solve_stoichastic(I, J, S, F, C, R, d, pi)
+#     print("\n Objective Values: ", sol["objective"])
+#     print("\n Open facilities: ")
+#     for i, val in sol["x"].items():
+#         print(f" facility{i}: {int(round(val))}")
+#     # print("\n Non-zero flows:")
+#     # for (i,j), val in sol["w"].items():
+#     #     if val > 1e-6:
+#     #         print(f" w[{i},{j}] = {val:.2f}")
+
+from utils.decision_dependent_instance import generate_decision_dependent_instance
+from models.decision_dependent_model import solve_decision_dependent
 
 def main():
-    I, J, S, F, C, R, d, pi = generate_stoichastic_instance(num_scenarios=5)
-    sol = solve_stoichastic(I, J, S, F, C, R, d, pi)
-    print("\n Objective Values: ", sol["objective"])
-    print("\n Open facilities: ")
-    for i, val in sol["x"].items():
-        print(f" facility{i}: {int(round(val))}")
-    # print("\n Non-zero flows:")
-    # for (i,j), val in sol["w"].items():
-    #     if val > 1e-6:
-    #         print(f" w[{i},{j}] = {val:.2f}")
+    data = generate_decision_dependent_instance()
+    sol = solve_decision_dependent(*data)
+    print("\n Objective: ", sol["objective"])
+    print("\n Facilities: ", sol["x"])
+    print("\n Zones: ", sol["y"])
+    print("\n Distribution: ", sol["delta"])
 
 if __name__ == "__main__":
     main()
